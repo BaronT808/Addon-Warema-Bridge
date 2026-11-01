@@ -8,6 +8,16 @@ which itself is based on [giannello/addon-warema-bridge](https://github.com/gian
 and the node module [warema-wms-venetian-blinds](https://www.npmjs.com/package/warema-wms-venetian-blinds).
 All credit for the bridge and the WMS protocol work goes to the original authors.
 
+## About this fork / How it was made
+
+I am not a programmer. I use Home Assistant at home and wanted my Warema blinds to work reliably.
+The analysis of the problem, the fix and this whole repository were created by
+**Claude (Anthropic's AI assistant)** in conversation with me. I described the problem, tested
+it on my own system and decided what goes in.
+
+Please keep that in mind: I can report problems and test, but I cannot review the code myself
+like a developer would.
+
 ## What is different in this fork?
 
 | Problem in the original | Fix in this fork |
@@ -37,6 +47,11 @@ aus Home Assistant.
 Dies ist ein **Fork** von [santam85/addon-warema-wms](https://github.com/santam85/addon-warema-wms)
 (basierend auf [giannello/addon-warema-bridge](https://github.com/giannello/addon-warema-bridge)).
 Der Dank für Bridge und Protokoll gebührt den ursprünglichen Autoren.
+
+**Über diesen Fork:** Ich bin kein Programmierer. Die Fehleranalyse, der Fix und das ganze
+Repository wurden von **Claude (KI-Assistent von Anthropic)** im Gespräch mit mir erstellt.
+Ich habe das Problem beschrieben, auf meinem eigenen System getestet und entschieden, was
+reinkommt. Den Code selbst wie ein Entwickler prüfen kann ich nicht.
 
 **Was ist anders?**
 - Trennt sich der USB-Stick kurz (Wackler, Stromschwankung, Neustart), startet sich die Bridge
