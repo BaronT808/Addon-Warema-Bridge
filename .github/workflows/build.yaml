@@ -9,6 +9,9 @@ on:
     branches: [main, "test/**"]
     paths:
       - "warema-bridge/**"
+      - "!warema-bridge/**/*.png"
+      - "!warema-bridge/**/*.md"
+      - "!warema-bridge/translations/**"
       - ".github/workflows/build.yaml"
   pull_request:
     paths:

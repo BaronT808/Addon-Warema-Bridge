@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640">
+  <rect width="1280" height="640" fill="#F3F7FB"/>
+  <g transform="translate(150 192)">
+    <rect width="256" height="256" rx="56" fill="#0288D1"/>
+    <rect x="36" y="34" width="184" height="44" rx="10" fill="#FFFFFF"/>
+    <text x="128" y="67" text-anchor="middle" font-family="Inter" font-weight="800" font-size="34" letter-spacing="4" fill="#0288D1">WMS</text>
+    <rect x="50" y="78" width="156" height="142" rx="6" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+    <g fill="#FFFFFF">
+      <rect x="55" y="86" width="146" height="13" rx="3"/>
+      <rect x="55" y="104" width="146" height="13" rx="3"/>
+      <rect x="55" y="122" width="146" height="13" rx="3"/>
+      <rect x="55" y="140" width="146" height="13" rx="3"/>
+    </g>
+    <g fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round">
+      <circle cx="128" cy="196" r="6" fill="#FFFFFF" stroke="none"/>
+      <path d="M110 182 a26 26 0 0 1 36 0"/>
+      <path d="M96 170 a46 46 0 0 1 64 0"/>
+    </g>
+  </g>
+  <text x="460" y="300" font-family="Inter" font-weight="800" font-size="84" fill="#0288D1">Warema WMS</text>
+  <text x="464" y="374" font-family="Inter" font-weight="600" font-size="56" letter-spacing="10" fill="#5F6B7A">BRIDGE</text>
+  <text x="464" y="430" font-family="Inter" font-weight="500" font-size="30" fill="#5F6B7A">Home Assistant app</text>
+  <text x="464" y="472" font-family="Inter" font-weight="500" font-size="30" fill="#5F6B7A">with auto-recovery after USB stick disconnects</text>
+</svg>

@@ -1,3 +1,5 @@
+<p align="center"><img src="warema-bridge/logo.png" alt="Warema WMS Bridge" width="450"></p>
+
 # Warema WMS Bridge – Home Assistant app
 
 **[English](#english) · [Deutsch](#deutsch)**
@@ -141,8 +143,8 @@ The license in plain words:
   The USB fix of this fork is in this module.
 - For the rest of the app by giannello and santam85 no license is stated. It is continued here
   with full credit to its authors.
-- My own changes (fix, documentation, option descriptions, app layout) may be used freely by
-  anyone, also under the MIT license.
+- My own changes (fix, documentation, option descriptions, app layout, icon and logo) may be used
+  freely by anyone, also under the MIT license. The icon is an original design, not the Warema logo.
 
 If one of the original authors does not agree with this, please open an issue here.
 
@@ -283,7 +285,7 @@ Die Lizenz in einfachen Worten:
   Der USB-Fix dieses Forks steckt in diesem Modul.
 - Für den Rest der App von giannello und santam85 ist keine Lizenz angegeben. Sie wird hier unter
   voller Nennung ihrer Autoren weitergeführt.
-- Meine eigenen Änderungen (Fix, Doku, Optionsbeschreibungen, Aufbau der App) darf jeder frei verwenden,
-  ebenfalls unter der MIT-Lizenz.
+- Meine eigenen Änderungen (Fix, Doku, Optionsbeschreibungen, Aufbau der App, Icon und Logo) darf jeder
+  frei verwenden, ebenfalls unter der MIT-Lizenz. Das Icon ist ein eigener Entwurf, nicht das Warema-Logo.
 
 Ist einer der ursprünglichen Autoren damit nicht einverstanden, bitte hier ein Issue eröffnen.
