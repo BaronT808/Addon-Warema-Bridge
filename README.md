@@ -125,10 +125,26 @@ If 3 minutes pass, the log shows a timeout. Just restart the app and try again.
 | `wmsRetry blindGetPos ...` | A blind did not answer at once and is asked again. Single retries are normal, especially while it moves. If it is always the same blind, its radio reception is weak – move the stick to a better spot. |
 | `wmsTimeout` for all blinds | No radio connection. Check channel, PAN ID and key. |
 
-### 8. License
+### 8. Credits and license
 
-The upstream projects do not include a license file. Until this is clarified with the original
-authors, this fork is published for personal use and to offer the fix back upstream.
+This fork is built on the work of others. Many thanks to:
+
+- **Giuseppe Iannello** ([giannello](https://github.com/giannello)) – the original Warema bridge app
+- **Marco Santarelli** ([santam85](https://github.com/santam85/addon-warema-wms)) – improved version this fork is based on
+- the author of the node module **[warema-wms-venetian-blinds](https://www.npmjs.com/package/warema-wms-venetian-blinds)** –
+  the communication with the stick and the WMS radio protocol
+
+The license in plain words:
+
+- The module *warema-wms-venetian-blinds* (the core that talks to the stick) is under the **MIT license**.
+  It explicitly allows using, changing and sharing the code as long as the author is credited.
+  The USB fix of this fork is in this module.
+- For the rest of the app by giannello and santam85 no license is stated. It is continued here
+  with full credit to its authors.
+- My own changes (fix, documentation, option descriptions, app layout) may be used freely by
+  anyone, also under the MIT license.
+
+If one of the original authors does not agree with this, please open an issue here.
 
 ---
 
@@ -251,7 +267,23 @@ Sind die 3 Minuten um, steht ein Timeout im Log. Dann einfach die App neu starte
 | `wmsRetry blindGetPos ...` | Ein Rollo hat nicht sofort geantwortet und wird noch mal gefragt. Einzelne Retries sind normal, vor allem während der Fahrt. Ist es immer dasselbe Rollo, ist sein Funkempfang schwach – den Stick an eine bessere Stelle setzen. |
 | `wmsTimeout` bei allen Rollos | Keine Funkverbindung. Kanal, PAN-ID und Schlüssel prüfen. |
 
-### 8. Lizenz
+### 8. Dank und Lizenz
 
-Die Ursprungsprojekte enthalten keine Lizenzdatei. Bis das mit den ursprünglichen Autoren geklärt ist,
-wird dieser Fork für den privaten Gebrauch veröffentlicht und um den Fix an das Original zurückzugeben.
+Dieser Fork baut auf der Arbeit anderer auf. Vielen Dank an:
+
+- **Giuseppe Iannello** ([giannello](https://github.com/giannello)) – die ursprüngliche Warema-Bridge-App
+- **Marco Santarelli** ([santam85](https://github.com/santam85/addon-warema-wms)) – die verbesserte Version, auf der dieser Fork aufbaut
+- den Autor des Node-Moduls **[warema-wms-venetian-blinds](https://www.npmjs.com/package/warema-wms-venetian-blinds)** –
+  die Kommunikation mit dem Stick und das WMS-Funkprotokoll
+
+Die Lizenz in einfachen Worten:
+
+- Das Modul *warema-wms-venetian-blinds* (das Herzstück, das mit dem Stick spricht) steht unter der **MIT-Lizenz**.
+  Sie erlaubt ausdrücklich, den Code zu nutzen, zu ändern und weiterzugeben, solange der Urheber genannt wird.
+  Der USB-Fix dieses Forks steckt in diesem Modul.
+- Für den Rest der App von giannello und santam85 ist keine Lizenz angegeben. Sie wird hier unter
+  voller Nennung ihrer Autoren weitergeführt.
+- Meine eigenen Änderungen (Fix, Doku, Optionsbeschreibungen, Aufbau der App) darf jeder frei verwenden,
+  ebenfalls unter der MIT-Lizenz.
+
+Ist einer der ursprünglichen Autoren damit nicht einverstanden, bitte hier ein Issue eröffnen.
