@@ -22,6 +22,9 @@ RUN apk add --no-cache --virtual .build-deps python3 make g++ linux-headers \
 # Bridge code and s6 service scripts
 COPY rootfs /
 
+# Smoke test: fail the build if a dependency (incl. the native serialport binding) cannot be loaded
+RUN node -e "require('serialport'); require('@serialport/parser-delimiter'); require('mqtt'); require('winston'); require('/srv/warema-wms-venetian-blinds/stick-usb.js'); console.log('dependencies OK, node ' + process.version)"
+
 RUN chmod a+x /etc/services.d/warema-bridge/run /etc/services.d/warema-bridge/finish
 
 ARG BUILD_ARCH
@@ -32,5 +35,5 @@ LABEL \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
     io.hass.version="${BUILD_VERSION}" \
-    org.opencontainers.image.source="https://github.com/BaronT808/addon-warema-bridge" \
+    org.opencontainers.image.source="https://github.com/BaronT808/Addon-Warema-Bridge" \
     org.opencontainers.image.description="Warema WMS to MQTT bridge for Home Assistant"

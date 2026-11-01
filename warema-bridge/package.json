@@ -1,15 +1,15 @@
 {
   "name": "addon-warema-bridge",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": true,
   "description": "Warema WMS to MQTT bridge for Home Assistant",
   "scripts": {
     "start": "node rootfs/srv/index.js"
   },
   "dependencies": {
-    "@serialport/parser-delimiter": "^12.0.0",
-    "mqtt": "^4.3.8",
-    "serialport": "^12.0.0",
-    "winston": "^3.8.2"
+    "@serialport/parser-delimiter": "^13.0.0",
+    "mqtt": "^5.16.0",
+    "serialport": "^13.0.0",
+    "winston": "^3.17.0"
   }
 }

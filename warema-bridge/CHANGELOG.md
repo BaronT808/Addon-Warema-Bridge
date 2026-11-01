@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.2
+
+- Updated building blocks: `serialport` 13 (USB stick), `mqtt` 5 (connection to Home Assistant),
+  `winston` 3.17 (logging).
+- New Home Assistant base image: Alpine 3.24 (3.21 no longer receives updates).
+- No changes to how the bridge works – your settings stay as they are.
+
 ## 1.0.1
 
 - **New:** Every option now has a name and a description in English and German (Configuration tab).
