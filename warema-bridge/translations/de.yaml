@@ -1,0 +1,54 @@
+configuration:
+  wms_serial_port:
+    name: WMS-USB-Stick
+    description: >-
+      Der Anschluss des Warema-WMS-Sticks. Der Stick hat einen FTDI-Chip und heißt in der Regel
+      /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_XXXXXXXX-if00-port0 (XXXXXXXX ist die
+      Seriennummer deines Sticks). Immer den Eintrag mit /dev/serial/by-id/ wählen, nicht
+      /dev/ttyUSB0, weil sich dieser Name nach einem Neustart ändern kann.
+  wms_key:
+    name: WMS-Netzwerkschlüssel
+    description: >-
+      32-stelliger Schlüssel deines WMS-Funknetzes (Hex, z. B. 00112233445566778899AABBCCDDEEFF).
+      Unbekannt? PAN-ID leer lassen, App starten und der Anleitung im Log folgen (siehe Dokumentation).
+  wms_pan_id:
+    name: WMS-PAN-ID
+    description: >-
+      4-stellige Netzwerk-ID deines WMS-Funknetzes (Hex, z. B. 3C6C). Leer lassen oder FFFF eintragen,
+      um Kanal, PAN-ID und Schlüssel mit dem WMS-Handsender zu ermitteln (Suchmodus, siehe Dokumentation).
+  wms_channel:
+    name: WMS-Funkkanal
+    description: >-
+      Funkkanal deines WMS-Netzes, z. B. 17. Wird zusammen mit PAN-ID
+      und Schlüssel im Suchmodus angezeigt.
+  ignored_devices:
+    name: Ignorierte Geräte
+    description: >-
+      Seriennummern (SNR) von WMS-Geräten, die nicht in Home Assistant angelegt werden sollen,
+      durch Komma getrennt, z. B. 123456,234567. Die SNR steht im Log der App unter "Scanned devices".
+  force_devices:
+    name: Fest eingetragene Geräte
+    description: >-
+      Seriennummern (SNR) von Geräten, die immer angelegt werden, auch wenn der Suchlauf sie nicht
+      findet, durch Komma getrennt, z. B. 123456,234567. Optional mit Typ: 123456:25
+      (25 = Funkmotor, Standard). Empfohlen, damit alle Rollos nach jedem Start sicher da sind.
+  polling_interval:
+    name: Abfrageintervall (ms)
+    description: >-
+      Wie oft die App alle Geräte nach ihrer Position fragt, in Millisekunden. Standard 30000 (30 s),
+      Minimum 1000.
+  moving_interval:
+    name: Abfrageintervall bei Fahrt (ms)
+    description: >-
+      Wie oft ein gerade fahrendes Rollo nach seiner Position gefragt wird, in Millisekunden.
+      Standard 1000 (1 s), Minimum 100.
+  stick_silence_limit:
+    name: Stick-Wächter (s)
+    description: >-
+      Meldet sich der Stick so viele Sekunden gar nicht, startet die App sich selbst neu.
+      Standard 300 (5 Minuten), 0 schaltet den Wächter ab.
+  log_level:
+    name: Log-Stufe
+    description: >-
+      Wie viel im Log steht: error (nur Fehler), warn, info (Standard) oder debug (sehr ausführlich,
+      nur zur Fehlersuche).

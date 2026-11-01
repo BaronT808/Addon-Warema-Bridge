@@ -1,0 +1,54 @@
+configuration:
+  wms_serial_port:
+    name: WMS USB stick
+    description: >-
+      Port of the Warema WMS stick. The stick uses an FTDI chip and is usually called
+      /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_XXXXXXXX-if00-port0 (XXXXXXXX is the serial number
+      of your stick). Always choose the /dev/serial/by-id/ entry, not /dev/ttyUSB0, because that name
+      can change after a reboot.
+  wms_key:
+    name: WMS network key
+    description: >-
+      32-character key of your WMS radio network (hex, e.g. 00112233445566778899AABBCCDDEEFF).
+      Unknown? Leave the PAN ID empty, start the app and follow the instructions in the log (see Documentation).
+  wms_pan_id:
+    name: WMS PAN ID
+    description: >-
+      4-character network ID of your WMS radio network (hex, e.g. 3C6C). Leave empty or enter FFFF
+      to discover channel, PAN ID and key with the WMS hand-held transmitter (discovery mode, see Documentation).
+  wms_channel:
+    name: WMS radio channel
+    description: >-
+      Radio channel of your WMS network, e.g. 17. Shown together with
+      PAN ID and key in discovery mode.
+  ignored_devices:
+    name: Ignored devices
+    description: >-
+      Serial numbers (SNR) of WMS devices that should not be created in Home Assistant,
+      comma-separated, e.g. 123456,234567. You find the SNR in the app log under "Scanned devices".
+  force_devices:
+    name: Forced devices
+    description: >-
+      Serial numbers (SNR) of devices that are always created, even if the scan does not find them,
+      comma-separated, e.g. 123456,234567. Optionally with type: 123456:25 (25 = radio motor, default).
+      Recommended, so all blinds are reliably there after every start.
+  polling_interval:
+    name: Polling interval (ms)
+    description: >-
+      How often the app asks all devices for their position, in milliseconds. Default 30000 (30 s),
+      minimum 1000.
+  moving_interval:
+    name: Polling interval while moving (ms)
+    description: >-
+      How often a moving blind is asked for its position, in milliseconds. Default 1000 (1 s),
+      minimum 100.
+  stick_silence_limit:
+    name: Stick watchdog (s)
+    description: >-
+      If the stick sends nothing for this many seconds, the app restarts itself.
+      Default 300 (5 minutes), 0 disables the watchdog.
+  log_level:
+    name: Log level
+    description: >-
+      How much is logged: error (errors only), warn, info (default) or debug (very verbose,
+      for troubleshooting only).

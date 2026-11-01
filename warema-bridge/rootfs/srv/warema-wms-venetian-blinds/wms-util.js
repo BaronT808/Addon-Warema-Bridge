@@ -131,7 +131,7 @@ function encodeCmd(cmd, snr, params) {
                 params.pos = 0;
             }
             if (params.ang === undefined) {
-                log.error("wmsUtil: blindMoveToPos: ang undefined. Assuming 0.");
+                log.debug("wmsUtil: blindMoveToPos: ang undefined. Assuming 0.");
                 params.ang = 0;
             }
             ret.expect.msgType = "blindMoveToPosResponse";

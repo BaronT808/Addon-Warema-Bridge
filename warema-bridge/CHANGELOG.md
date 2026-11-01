@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.1
+
+- **New:** Every option now has a name and a description in English and German (Configuration tab).
+- **New:** README and documentation rewritten: identical structure in English and German, step-by-step
+  installation including how to discover channel, PAN ID and key with the WMS hand-held transmitter,
+  options table and troubleshooting.
+- The harmless message `blindMoveToPos: ang undefined. Assuming 0.` is now logged as debug instead of
+  error. It appears for every move command on blinds without slat tilt.
+
 ## 1.0.0
 
 First release of the BaronT808 fork.
