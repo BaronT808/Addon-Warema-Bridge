@@ -30,7 +30,7 @@ like a developer would.
 ## Installation
 
 1. In Home Assistant go to **Settings → Apps → App store → ⋮ → Repositories**.
-2. Add `https://github.com/BaronT808/addon-warema-bridge`.
+2. Add `https://github.com/BaronT808/Addon-Warema-Bridge`.
 3. Install **Warema Bridge** and configure it (see the *Documentation* tab of the app).
 
 Moving from the original app? Copy your settings (serial port, key, PAN ID, channel,
@@ -62,7 +62,7 @@ reinkommt. Den Code selbst wie ein Entwickler prüfen kann ich nicht.
 - Echte Versionsnummern, aktuelles Basis-Image, fertige Images für Raspberry Pi und PC.
 
 **Installation:** Einstellungen → Apps → App Store → ⋮ → Repositories →
-`https://github.com/BaronT808/addon-warema-bridge` hinzufügen → **Warema Bridge** installieren.
+`https://github.com/BaronT808/Addon-Warema-Bridge` hinzufügen → **Warema Bridge** installieren.
 
 ## License
 

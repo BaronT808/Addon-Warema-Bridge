@@ -2,7 +2,7 @@ name: Warema Bridge
 version: "1.0.0"
 slug: warema_bridge
 description: Control your Warema WMS system (with automatic recovery after USB stick disconnects)
-url: https://github.com/BaronT808/addon-warema-bridge
+url: https://github.com/BaronT808/Addon-Warema-Bridge
 image: ghcr.io/baront808/{arch}-addon-warema-bridge
 arch:
   - aarch64
