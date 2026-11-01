@@ -19,6 +19,5 @@
   </g>
   <text x="460" y="300" font-family="Inter" font-weight="800" font-size="84" fill="#0288D1">Warema WMS</text>
   <text x="464" y="374" font-family="Inter" font-weight="600" font-size="56" letter-spacing="10" fill="#5F6B7A">BRIDGE</text>
-  <text x="464" y="430" font-family="Inter" font-weight="500" font-size="30" fill="#5F6B7A">Home Assistant app</text>
-  <text x="464" y="472" font-family="Inter" font-weight="500" font-size="30" fill="#5F6B7A">with auto-recovery after USB stick disconnects</text>
+  <text x="464" y="440" font-family="Inter" font-weight="500" font-size="34" fill="#5F6B7A">Home Assistant app</text>
 </svg>
