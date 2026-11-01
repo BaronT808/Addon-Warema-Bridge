@@ -4,6 +4,10 @@ const {SerialPort} = require('serialport')
 const {DelimiterParser} = require('@serialport/parser-delimiter')
 
 const DelimiterChar = '}';
+// 0 disables the silence watchdog, default 300 s
+const STICK_SILENCE_LIMIT_S = process.env.STICK_SILENCE_LIMIT_S !== undefined && process.env.STICK_SILENCE_LIMIT_S !== ''
+    ? parseInt(process.env.STICK_SILENCE_LIMIT_S) : 300;
+const STICK_SILENCE_LIMIT_MS = (isNaN(STICK_SILENCE_LIMIT_S) ? 300 : STICK_SILENCE_LIMIT_S) * 1000;
 
 //--------------------------------------------------------------------------------------------------
 class StickUsb extends WmsVbStick {
@@ -149,19 +153,35 @@ class StickUsb extends WmsVbStick {
         var stickObj = this;
         this.port.on('open', function () {
             log.debug('Opened port ' + portPath + ' and listening ...');
+            stickObj.lastRxTs = Date.now();
+            stickObj.startStickWatchdog(portPath);
             stickObj.initWmsNetwork();
         })
+
+        // Fix (BaronT808): If the USB stick disconnects (even for a second), Linux closes the
+        // port. The original bridge kept running with a dead connection and every command ended
+        // in wmsRetry/wmsTimeout until the add-on was restarted manually. We now exit the process,
+        // s6 restarts the bridge service automatically (see finish script),
+        // which re-opens the stick.
+        this.port.on('close', function (err) {
+            var reason = (err && err.disconnected) ? ' (USB device disconnected)' : '';
+            StickUsb.fatal(portPath + ' port closed' + reason + '.');
+        });
 
         this.port.on('error', function (err) {
             if (!portPath) {
                 portPath = portPath;
             }
 
-            log.error(portPath + ' error: ', err.message)
+            log.error(portPath + ' error: ' + err.message)
             this.status = "error";
+            if (!stickObj.port.isOpen) {
+                StickUsb.fatal(portPath + ' is not open after error: ' + err.message);
+            }
         })
 
         this.parser.on('data', function (data) {
+            stickObj.lastRxTs = Date.now();
             stickObj.comDataReceive(data.toString('utf8') + DelimiterChar);
         });
 
@@ -169,6 +189,7 @@ class StickUsb extends WmsVbStick {
             log.debug(portPath + ' port closed. ');
             this.status = "created";
         });
+
     }
 
     // Overwriting suber class
@@ -182,7 +203,43 @@ class StickUsb extends WmsVbStick {
 
         // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
+        if (!this.port || !this.port.isOpen) {
+            StickUsb.fatal('Cannot write to ' + this.portPath + ': port is not open.');
+            return;
+        }
         this.port.write(dataString, portWriteErrHdlr);
+    }
+
+    // Second safety net: the WMS stick acknowledges every command it receives. If it has not
+    // sent anything for STICK_SILENCE_LIMIT_MS although the bridge keeps polling, the stick is
+    // considered dead (e.g. hung without the port being closed) and the bridge exits.
+    startStickWatchdog(portPath) {
+        var stickObj = this;
+        if (STICK_SILENCE_LIMIT_MS <= 0 || (process.env.WMS_PAN_ID || 'FFFF').toUpperCase() === 'FFFF') {
+            // disabled, or network parameter discovery mode (no polling, silence is expected)
+            return;
+        }
+        if (this.stickWatchdogTimer) {
+            clearInterval(this.stickWatchdogTimer);
+        }
+        this.stickWatchdogTimer = setInterval(function () {
+            var silentMs = Date.now() - (stickObj.lastRxTs || 0);
+            if (silentMs > STICK_SILENCE_LIMIT_MS) {
+                StickUsb.fatal('No data from WMS stick on ' + portPath + ' for ' + Math.round(silentMs / 1000) + ' s.');
+            }
+        }, 60 * 1000);
+    }
+
+    static fatal(reason) {
+        if (StickUsb.exiting) {
+            return;
+        }
+        StickUsb.exiting = true;
+        log.error(reason + ' Exiting, the bridge will be restarted automatically.');
+        // short delay so the log line is flushed
+        setTimeout(function () {
+            process.exit(1);
+        }, 1000);
     }
 
 }

@@ -1,0 +1,19 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Warema Bridge: called by s6 when the bridge process ends
+#
+# The bridge exits on purpose when the WMS USB stick disconnects or stops
+# answering. We do NOT halt the container in that case: s6 restarts the
+# service automatically after this script, the bridge re-opens the stick and
+# everything works again - no manual restart, no Supervisor watchdog needed.
+# If the stick is still missing, the bridge exits again and is retried.
+# ==============================================================================
+
+# $1 = exit code of the service, 256 = killed by a signal (e.g. app stop)
+if [[ "${1}" -eq 256 ]]; then
+  exit 0
+fi
+
+bashio::log.warning "Warema bridge ended with exit code ${1} - restarting in 3 seconds..."
+sleep 3

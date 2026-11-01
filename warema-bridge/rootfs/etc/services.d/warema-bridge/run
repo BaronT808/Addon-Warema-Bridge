@@ -1,0 +1,43 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Warema Bridge: runs the Warema WMS <-> MQTT bridge
+# ==============================================================================
+
+bashio::log.info 'Starting the Warema bridge...'
+
+# Load configuration into environment variables
+for var in WMS_KEY WMS_PAN_ID WMS_CHANNEL WMS_SERIAL_PORT IGNORED_DEVICES FORCE_DEVICES \
+           POLLING_INTERVAL MOVING_INTERVAL LOG_LEVEL; do
+  if bashio::config.has_value "${var,,}"; then
+    value=$(bashio::config "${var,,}")
+    if [[ "${var}" == "WMS_KEY" ]]; then
+      bashio::log.info "Setting ${var} to ********"
+    else
+      bashio::log.info "Setting ${var} to ${value}"
+    fi
+    export "${var}=${value}"
+  fi
+done
+
+if bashio::config.has_value 'stick_silence_limit'; then
+  export STICK_SILENCE_LIMIT_S="$(bashio::config 'stick_silence_limit')"
+  bashio::log.info "Setting STICK_SILENCE_LIMIT_S to ${STICK_SILENCE_LIMIT_S}"
+fi
+
+if ! bashio::services.available "mqtt"; then
+  bashio::exit.nok "No internal MQTT service found. Please install the Mosquitto broker app."
+fi
+
+bashio::log.info "MQTT available, fetching server details..."
+MQTT_PREFIX="mqtt://"
+if [[ "$(bashio::services mqtt "ssl")" == "true" ]]; then
+  MQTT_PREFIX="mqtts://"
+fi
+export MQTT_SERVER="${MQTT_PREFIX}$(bashio::services mqtt "host"):$(bashio::services mqtt "port")"
+export MQTT_USER="$(bashio::services mqtt "username")"
+export MQTT_PASSWORD="$(bashio::services mqtt "password")"
+bashio::log.info "Using MQTT server ${MQTT_SERVER} as user ${MQTT_USER}"
+
+cd /srv || bashio::exit.nok "Cannot change to /srv"
+exec node /srv/index.js

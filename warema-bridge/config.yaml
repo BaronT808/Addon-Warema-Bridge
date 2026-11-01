@@ -1,0 +1,28 @@
+name: Warema Bridge
+version: "1.0.0"
+slug: warema_bridge
+description: Control your Warema WMS system (with automatic recovery after USB stick disconnects)
+url: https://github.com/BaronT808/addon-warema-bridge
+image: ghcr.io/baront808/{arch}-addon-warema-bridge
+arch:
+  - aarch64
+  - amd64
+startup: services
+boot: auto
+init: false
+hassio_api: true
+services:
+  - mqtt:need
+options:
+  wms_serial_port: null
+schema:
+  wms_serial_port: device(subsystem=tty)
+  wms_key: str?
+  wms_pan_id: str?
+  wms_channel: int?
+  ignored_devices: str?
+  force_devices: str?
+  polling_interval: int(1000,)?
+  moving_interval: int(100,)?
+  stick_silence_limit: int(0,)?
+  log_level: list(error|warn|info|debug)?

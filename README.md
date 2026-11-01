@@ -1,105 +1,55 @@
-# addon-warema-wms
+# Warema WMS Bridge – Home Assistant app
 
-This Home Assistant addon allows to control Warema WMS equipment.
-In order to use this addon you'll need a Warema WMS stick (https://www.warema.com/en/control-systems/radio-systems/supplementary-components/)
+Control your **Warema WMS** blinds, awnings and weather station from Home Assistant via MQTT,
+using a Warema WMS USB stick.
 
-### Installation
-### Configuration
+**This is a fork** of [santam85/addon-warema-wms](https://github.com/santam85/addon-warema-wms),
+which itself is based on [giannello/addon-warema-bridge](https://github.com/giannello/addon-warema-bridge)
+and the node module [warema-wms-venetian-blinds](https://www.npmjs.com/package/warema-wms-venetian-blinds).
+All credit for the bridge and the WMS protocol work goes to the original authors.
 
-MQTT_SERVER
-: MQTT server url (ie: http://localhost:1883)
+## What is different in this fork?
 
-MQTT_USER
-: Username for MQTT server authentication
+| Problem in the original | Fix in this fork |
+|---|---|
+| If the WMS USB stick disconnects for even a second (USB power glitch, reboot timing), the bridge keeps running with a dead connection. Every command ends in `wmsRetry` / `wmsTimeout` until you restart the app manually. | The bridge detects the closed port and restarts itself within a few seconds, then re-opens the stick. If the stick is still missing, it keeps retrying. |
+| A stick that hangs without closing the port is not noticed either. | Second safety net: if the stick sends nothing for 5 minutes although the bridge keeps polling, the bridge restarts (configurable, `0` disables it). |
+| Version is always `dev`, so Home Assistant never offers updates. | Real version numbers and a changelog. |
+| Prebuilt image from 2023, outdated base image. | Current Home Assistant base image, images built automatically by GitHub Actions for `aarch64` (Raspberry Pi 4/5) and `amd64`. |
 
-MQTT_PASSWORD
-: Password for MQTT server authentication
+## Installation
 
-IGNORED_DEVICES
-: A comma-separated list of device ids to exclude from the results of network scanning. Any excluded device will not show up in Home assistant, and the integration will ignore any status or position updates coming from it.
+1. In Home Assistant go to **Settings → Apps → App store → ⋮ → Repositories**.
+2. Add `https://github.com/BaronT808/addon-warema-bridge`.
+3. Install **Warema Bridge** and configure it (see the *Documentation* tab of the app).
 
-FORCE_DEVICES
-: A comma-separated list of devices to monitor for status and position updates. The devices included in this list will be added to Home assistant even
-if the automatic scanning process can't detect them. Their online status will be updated whenever they are in range. You can specify a particular device type for the forced devices
-using the format `DEVICE_ID:DEVICE_TYPE` for each device in the list. In case no type is specified, type 25 is assumed (radio-controlled motor). For a list of supported device types check https://www.npmjs.com/package/warema-wms-venetian-blinds.
+Moving from the original app? Copy your settings (serial port, key, PAN ID, channel,
+forced/ignored devices) over, stop the old app and start this one. Your covers keep their
+entity IDs because they are identified by the device serial numbers.
 
-POLLING_INTERVAL
-: Default value: 30000. Time interval in ms between each request to all devices to report their position and state.  
+---
 
-MOVING_INTERVAL
-: Default value: 1000. Minimum value: 100, Time interval between each request to a moving device to report position and state.
-This applies only to covers being opened or closed, for the duration of the operation or until stopped. Set to 0 to disable.
+## Deutsch
 
-WMS_CHANNEL, WMS_KEY, WMS_PAN_ID
-: Use these parameters to configure the WMS network your devices are connected to. In order to discover the parameters, start the addon with a `PAN_ID` equal to
-`FFFFF`, and follow the instructions described at the WMS network parameter discovery section ([here](#wms-discovery)).
+Steuert **Warema WMS**-Rollos, -Markisen und die Wetterstation über einen WMS-USB-Stick und MQTT
+aus Home Assistant.
 
-WMS_SERIAL_PORT
-: Default value: `/dev/ttyUSB0`. Device path for the WMS Usb Key.
+Dies ist ein **Fork** von [santam85/addon-warema-wms](https://github.com/santam85/addon-warema-wms)
+(basierend auf [giannello/addon-warema-bridge](https://github.com/giannello/addon-warema-bridge)).
+Der Dank für Bridge und Protokoll gebührt den ursprünglichen Autoren.
 
-LOG_LEVEL
-: Default value: `info`. Log level, one of `[error, warn, info , http , verbose , debug , silly]` (in increasing order).
+**Was ist anders?**
+- Trennt sich der USB-Stick kurz (Wackler, Stromschwankung, Neustart), startet sich die Bridge
+  nach wenigen Sekunden selbst neu und öffnet den Stick neu. Vorher liefen alle Befehle ins Leere,
+  bis man die App von Hand neu gestartet hat.
+- Zusätzlich: Meldet sich der Stick 5 Minuten lang gar nicht, startet die Bridge ebenfalls neu
+  (einstellbar, `0` schaltet das ab).
+- Echte Versionsnummern, aktuelles Basis-Image, fertige Images für Raspberry Pi und PC.
 
-### <a name="wms-discovery"></a>WMS Network parameters discovery
-In order to control WMS devices, the addon must be configured with the network parameters, which can be discovered through
-a brief process. You can initiate this process by starting the add-on with default parameters, or run it standalone with
-a command similar to the following:
-```shell
-docker run -it -e WMS_PAN_ID=FFFF -e WMS_SERIAL_PORT=/dev/ttyUSB0 santam/wms-mqtt 
-```
+**Installation:** Einstellungen → Apps → App Store → ⋮ → Repositories →
+`https://github.com/BaronT808/addon-warema-bridge` hinzufügen → **Warema Bridge** installieren.
 
-When the `panId` configuration env parameter is set to `"FFFF"`, the stick will enter discovery mode and print out
-instructions on the console on how to retrieve your network configuration using a remote.
+## License
 
-You will see something resembling the following:
-```
---------------------------------------------------------------------------------
-Starting getting network parameters...
-- Open the battery case of the WMS Handheld transmitter.
-- Select the channel using the (+) button.
-  Notice: If an unassigned channel is selected, press the (+) button for 5 s.
-          As soon as the LED flashes, all channels can be selected by
-          pressing the (+) button again
-- Press the learn button in the battery case of the WMS Handheld
-  transmitter for approx. 5 s. LEDS go green; the transmission LED flashes.
-  For several seconds, the WMSHand-held transmitter plus scans the operating 
-  range for devices.
-- Each time when scanning stops with red LED perform steps:
-  1)  When you press the control button (A), you can check WHICH target device
-      was just found.
-  2) If you can *not* see the output
-       "*** Waving and Hello!"
-     on the screen after pressing (A) another device than the WMS Stick has
-     been found. Press the (C) button to switch to the next receiver.
-  3) If you can see the output
-       "*** Waving and Hello!"
-     on the screen after pressing (A) then the WMS Stick has been found. 
-     Press the STOP button to assign the WMS Stick to the channel. After 
-     pressing STOP the network parameters are displayed on the screen. 
-- Press Ctrl-C to abort.
-```
-Once the remote is in "learning mode", and you pressed the (A) button to identify devices, you should start seeing messages like:
-```
-*** Stick scanned by SNR 123456.
-*** Stick scanned by SNR 123456.
-*** Stick scanned by SNR 123456.
-*** *** Waving and Hello! (requested from SNR 123456)
-*** *** Waving and Hello! (requested from SNR 123456)
-```
-Use these logs to make sure you are using the right network channel for the intended devices. 
-Once you are happy that (most of) your devices are discovered, by pressing the "stop" button on the remote, you should finally be able to see the network parameters:
-```
-*** WMS Network parameters successfully detected:
-    Channel: 17
-    PanId:   1A2B
-    Key:     0123456789ABCDEF0123456789ABCDEF
-- Write down and remember the network parameters.
-- Briefly press the learn button on the back of WMS Handheld transmitter to
-  stop the scanning process.
-- Press Ctrl-C to stop program.
---------------------------------------------------------------------------------
-```
-At this point you have all the configuration needed to setup the addon. You'll need to add these configuration parameters to the
-environment variables. The process for doing so changes depending on how you are running the addon.
-
-You'll have to restart the addon container with the new configuration to reinitialize the WMS stick using the correct parameters. 
+The upstream projects do not include a license file. Until this is clarified with the original
+authors, this fork is published for personal use and to offer the fix back upstream.
